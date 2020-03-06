@@ -1,0 +1,4 @@
+config.py
+chromedriver*
+.vscode/*
+__pycache__/*
