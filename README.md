@@ -19,7 +19,6 @@ You'll need the selenium python framework.
 
 Also the [Chrome Webdriver](https://sites.google.com/a/chromium.org/chromedriver/downloads) for your version of Chrome.
 
-
 ## Example usage:
 
 Copy `config.py.example` to `config.py` and set the url/username/password and you're good to go.
