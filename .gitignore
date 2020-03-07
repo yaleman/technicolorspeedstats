@@ -2,3 +2,4 @@ config.py
 chromedriver*
 .vscode/*
 __pycache__/*
+logfile.txt
