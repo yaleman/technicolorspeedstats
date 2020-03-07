@@ -7,6 +7,7 @@ from json import dumps
 from technicolorspeedstats import get_data
 
 LOGFILE = 'logfile.txt'
+LOG_TIMER = 300 # seconds
 
 while True:
     data = get_data()
@@ -15,4 +16,4 @@ while True:
     with open(LOGFILE, 'a') as fh:
         fh.write(dumps(data))
     print(dumps(data))
-    sleep(60)
+    sleep(LOG_TIMER)
