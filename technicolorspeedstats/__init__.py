@@ -1,5 +1,6 @@
 from time import sleep
 from selenium import webdriver
+import selenium.common.exceptions
 from config import ROUTER_PASSWORD, ROUTER_URL, ROUTER_USERNAME
 
 DEBUG=False
@@ -18,6 +19,12 @@ def find_data_box(driver_object):
             #print(box.text)
             return box
     return False
+
+NULLDATA = {
+    'status' : 'failed to poll',
+    'up' : -1,
+    'down' : -1,
+}
 
 def get_data():
 
@@ -39,24 +46,30 @@ def get_data():
     driver.implicitly_wait(5)
     
 
-    if DEBUG: 
-        print("Opened page")
-        print("Setting username")
-    driver.find_element_by_id('srp_username').clear()
-    driver.find_element_by_id('srp_username').send_keys(ROUTER_USERNAME)
+    try:
+        if DEBUG: 
+            print("Opened page")
+            print("Setting username")
+        driver.find_element_by_id('srp_username').clear()
+        driver.find_element_by_id('srp_username').send_keys(ROUTER_USERNAME)
 
-    if DEBUG:
-        print("sending password to form")
-    driver.find_element_by_id('srp_password').send_keys(ROUTER_PASSWORD)
-
-    if DEBUG:
-        print("clicking login button")
-    loginbutton = driver.find_element_by_id('sign-me-in').click()
+        if DEBUG:
+            print("sending password to form")
+        driver.find_element_by_id('srp_password').send_keys(ROUTER_PASSWORD)
+        if DEBUG:
+            print("clicking login button")
+        loginbutton = driver.find_element_by_id('sign-me-in').click()
+    except selenium.common.exceptions.NoSuchElementException:
+        return NULLDATA
 
     # wait for the page to render
-    while find_data_box(driver) == False:
-        sleep(1)
-    datadiv = find_data_box(driver)
+
+    try:
+        while find_data_box(driver) == False:
+            sleep(1)
+        datadiv = find_data_box(driver)
+    except selenium.common.exceptions.NoSuchElementException:
+        return NULLDATA
 
     # get the lines we need
     textlines = [line.strip() for line in datadiv.text.split("\n") if line.strip() != ""]

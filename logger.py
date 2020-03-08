@@ -14,6 +14,6 @@ while True:
     data['timestamp'] = str(datetime.now())
     
     with open(LOGFILE, 'a') as fh:
-        fh.write(dumps(data))
+        fh.write(f"{dumps(data)}\n")
     print(dumps(data))
     sleep(LOG_TIMER)
