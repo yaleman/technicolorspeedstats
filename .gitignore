@@ -3,3 +3,5 @@ chromedriver*
 .vscode/*
 __pycache__/*
 logfile.txt
+__pycache__/*
+*/__pycache__/*
